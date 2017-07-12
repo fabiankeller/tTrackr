@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {Subject} from "rxjs/Subject";
-import {AppConfig} from "./appconfig";
+import {Subject} from 'rxjs/Subject';
+import {AppConfig} from './appconfig';
 declare const electron: any;
 
 @Injectable()
@@ -14,32 +14,35 @@ export class AppConfigService {
   }
 
   loadConfig() {
-    let configPath = this.getConfigPath();
+    const configPath = this.getConfigPath();
 
     this.fs.readFile(configPath, 'utf-8', (err, data) => {
-      if(err){
+      if (err) {
         if (err.code === 'ENOENT') {
-          console.log("Could not find config file. Will try to create new one.");
+          console.log('Could not find config file. Will try to create new one.');
           this.ensureDirectoryExistence(configPath);
-          this.fs.writeFile(configPath, JSON.stringify({lastLoaded: ''}), 'utf-8', (err) => {
+          const newAppConfig = new AppConfig();
+          newAppConfig.lastLoaded = '';
+          this.fs.writeFile(configPath, JSON.stringify(newAppConfig), 'utf-8', (err) => {
             if (err) {
-              alert("An error occured while creating the app-config: " + err.message);
+              alert('An error occured while creating the app-config: ' + err.message);
             }
+            this.appConfig.next(newAppConfig);
           });
         }
+      } else {
+        const existingAppConfig = Object.assign(new AppConfig(), JSON.parse(data));
+        this.appConfig.next(existingAppConfig);
       }
-      this.appConfig.next(data);
-      // Change how to handle the file content
-      console.log("The file content is : " + data);
     });
   }
 
   private getConfigPath() {
-    return this.path.join(electron.remote.app.getPath('home'), '.timetracking', 'config.tt')
+    return this.path.join(electron.remote.app.getPath('home'), '.timetracking', 'config.tt');
   }
 
   ensureDirectoryExistence(filePath) {
-    let dirname = this.path.dirname(filePath);
+    const dirname = this.path.dirname(filePath);
     if (this.fs.existsSync(dirname)) {
       return true;
     }
