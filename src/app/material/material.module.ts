@@ -1,45 +1,7 @@
 import {NgModule} from '@angular/core';
+import { FlexLayoutModule } from "@angular/flex-layout";
+import {DpDatePickerModule} from 'ng2-date-picker';
 import {
-  MdAutocompleteModule,
-  MdButtonModule,
-  MdButtonToggleModule,
-  MdCardModule,
-  MdCheckboxModule,
-  MdChipsModule,
-  MdCoreModule,
-  MdDatepickerModule,
-  MdDialogModule,
-  MdExpansionModule,
-  MdGridListModule,
-  MdIconModule,
-  MdInputModule,
-  MdListModule,
-  MdMenuModule,
-  MdNativeDateModule,
-  MdPaginatorModule,
-  MdProgressBarModule,
-  MdProgressSpinnerModule,
-  MdRadioModule,
-  MdRippleModule,
-  MdSelectModule,
-  MdSidenavModule,
-  MdSliderModule,
-  MdSlideToggleModule,
-  MdSnackBarModule,
-  MdSortModule,
-  MdTableModule,
-  MdTabsModule,
-  MdToolbarModule,
-  MdTooltipModule,
-} from '@angular/material';
-import {CdkTableModule} from "@angular/cdk";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-
-@NgModule({
-  exports: [
-    FormsModule,
-    ReactiveFormsModule,
-    CdkTableModule,
     MdAutocompleteModule,
     MdButtonModule,
     MdButtonToggleModule,
@@ -71,7 +33,49 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     MdTabsModule,
     MdToolbarModule,
     MdTooltipModule,
-  ]
+} from '@angular/material';
+import {CdkTableModule} from "@angular/cdk";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+
+@NgModule({
+    exports: [
+        FlexLayoutModule,
+        FormsModule,
+        ReactiveFormsModule,
+        CdkTableModule,
+        MdAutocompleteModule,
+        MdButtonModule,
+        MdButtonToggleModule,
+        MdCardModule,
+        MdCheckboxModule,
+        MdChipsModule,
+        MdCoreModule,
+        MdDatepickerModule,
+        MdDialogModule,
+        MdExpansionModule,
+        MdGridListModule,
+        MdIconModule,
+        MdInputModule,
+        MdListModule,
+        MdMenuModule,
+        MdNativeDateModule,
+        MdPaginatorModule,
+        MdProgressBarModule,
+        MdProgressSpinnerModule,
+        MdRadioModule,
+        MdRippleModule,
+        MdSelectModule,
+        MdSidenavModule,
+        MdSliderModule,
+        MdSlideToggleModule,
+        MdSnackBarModule,
+        MdSortModule,
+        MdTableModule,
+        MdTabsModule,
+        MdToolbarModule,
+        MdTooltipModule,
+        DpDatePickerModule
+    ]
 })
 export class MaterialModule {
 }

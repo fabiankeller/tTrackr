@@ -1,49 +1,51 @@
 <md-toolbar color="primary">
-  <span>Second Line2</span>
-  <span class="example-spacer"></span>
-  <md-menu #appMenu="mdMenu">
-    <button md-menu-item (click)="save()"> Save </button>
-    <button md-menu-item (click)="loadFile()"> Load </button>
-  </md-menu>
+    <span>tTrackr - someFileName TBD</span>
+    <span class="example-spacer"></span>
+    <md-menu #appMenu="mdMenu">
+        <button md-menu-item (click)="save()"> Save</button>
+        <button md-menu-item (click)="loadFile()"> Load</button>
+    </md-menu>
 
-  <button md-icon-button [mdMenuTriggerFor]="appMenu">
-    <md-icon>more_vert</md-icon>
-  </button>
+    <button md-icon-button [mdMenuTriggerFor]="appMenu">
+        <md-icon>more_vert</md-icon>
+    </button>
 </md-toolbar>
 <md-tab-group>
-  <md-tab label="Day">
-      <md-card class="top-spacer">
-        <md-input-container>
-          <input mdInput [mdDatepicker]="picker" placeholder="Choose a date">
-          <button mdSuffix [mdDatepickerToggle]="picker"></button>
-        </md-input-container>
-        <md-datepicker #picker></md-datepicker>
-      </md-card>
-      <div class="container">
-        <md-card class="day-card">
-          <form class="example-form" [formGroup]="dayForm">
-
-            <md-input-container class="example-full-width">
-              <input mdInput #message name="time" maxlength="3" minlength="1" placeholder="Worked hours"
-                     formControlName="time">
-              <md-hint align="end">{{message.value.length}} / 3</md-hint>
-              <md-error *ngIf="dayForm.controls.time.hasError('pattern')">
-                Please enter a valid time
-              </md-error>
-              <md-error *ngIf="dayForm.controls.time.hasError('required')">
-                Time is <strong>required</strong>
-              </md-error>
-            </md-input-container>
-            <md-input-container class="example-full-width">
-              <input name="message" mdInput placeholder="What did you do?" formControlName="message">
-            </md-input-container>
-            <button (click)="saveDay()" md-raised-button>Save</button>
-          </form>
-        </md-card>
-      </div>
-  </md-tab>
-  <md-tab label="Week">Content 2</md-tab>
-  <md-tab label="Month">Content 2</md-tab>
+    <md-tab label="Day">
+        <form class="example-form" [formGroup]="dayForm">
+            <div>
+                <md-card class="" fxLayout="row">
+                    <dp-day-calendar name="someName"
+                                     fxFlex="33"
+                                     (click)="onDateSelect()"
+                                     formControlName="selectedDate"
+                                     theme="dp-material"></dp-day-calendar>
+                    <div class="day-card" fxFlex="66">
+                        <md-card class="day-card" fxLayout="column">
+                            <md-input-container fxFlex.lg>
+                                <input mdInput #message name="time" maxlength="3" minlength="1"
+                                       placeholder="Worked hours"
+                                       formControlName="time">
+                                <md-hint align="end">{{message.value.length}} / 3</md-hint>
+                                <md-error *ngIf="dayForm.controls.time.hasError('pattern')">
+                                    Please enter a valid time
+                                </md-error>
+                                <md-error *ngIf="dayForm.controls.time.hasError('required')">
+                                    Time is <strong>required</strong>
+                                </md-error>
+                            </md-input-container>
+                            <md-input-container fxFlex.lg>
+                                <input name="message" mdInput placeholder="What did you do?" formControlName="message">
+                            </md-input-container>
+                            <button (click)="saveDay()" md-raised-button>Save</button>
+                        </md-card>
+                    </div>
+                </md-card>
+            </div>
+        </form>
+    </md-tab>
+    <md-tab label="Week">Content 2</md-tab>
+    <md-tab label="Month">Content 2</md-tab>
 </md-tab-group>
 
 
