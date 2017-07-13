@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {AppConfig} from './appconfig';
+import {TypedJSON} from "typedjson-npm";
 declare const electron: any;
 
 @Injectable()
@@ -31,7 +32,7 @@ export class AppConfigService {
           });
         }
       } else {
-        const existingAppConfig = Object.assign(new AppConfig(), JSON.parse(data));
+        const existingAppConfig = TypedJSON.parse(data, AppConfig);
         this.appConfig.next(existingAppConfig);
       }
     });
