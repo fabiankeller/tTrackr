@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {AppConfig} from './appconfig';
-import {TypedJSON} from "typedjson-npm";
+import {TypedJSON} from "typedjson-npm/src/typed-json";
 declare const electron: any;
 
 @Injectable()

@@ -1,4 +1,4 @@
-import {JsonMember, JsonObject} from "typedjson-npm";
+import {JsonMember, JsonObject} from "typedjson-npm/src/typed-json";
 
 @JsonObject
 export class Day {

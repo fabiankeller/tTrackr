@@ -1,7 +1,7 @@
 import {Year} from "./year";
 import {Day} from "./day";
 import {Moment} from 'moment';
-import {JsonMember, JsonObject} from "typedjson-npm";
+import {JsonMember, JsonObject} from "typedjson-npm/src/typed-json";
 
 @JsonObject
 export class TrackrStore {
