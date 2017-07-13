@@ -1,52 +1,56 @@
 import {Year} from "./year";
 import {Day} from "./day";
+import {Moment} from 'moment';
+import {JsonMember, JsonObject} from "typedjson-npm";
+
+@JsonObject
 export class TrackrStore {
-    entities: Year[];
+    @JsonMember({ elements: Year}) entities: Year[];
 
-    getDayByDate(date: Date) {
+    getDayByDate(date: Moment): Day {
         let parsedDate = this.splitDate(date);
+        let year = this.getYear(parsedDate.year);
 
-        return this.getYear(parsedDate.year).getMonth(parsedDate.month).getDay(parsedDate.day);
+        if (year) {
+            let month = year.getMonth(parsedDate.month);
+            if (month) {
+                let day = month.getDay(parsedDate.day);
+                return day ? day : new Day();
+            }
+        }
+
+        return new Day();
     }
 
-    getWeekByDate(date: Date): Day[] {
-        let monday = this.getMonday(date);
+    getWeekByDate(date: Moment): Day[] {
+        let monday = date.startOf("week").add(1, "days");
         let week = [];
 
         for (let i = 0; i < 7; i++) {
             week.push(this.getDayByDate(date));
-            date.setDate(date.getDate() + 1);
+            date.add(1, "days");
         }
 
         return week;
     }
 
-    getDaysForMonthByDate(date: Date) {
+    getDaysForMonthByDate(date: Moment): Day[] {
         let parsedDate = this.splitDate(date);
 
         return this.getYear(parsedDate.year).getMonth(parsedDate.month).days;
     }
 
-    getMonday(date: Date): Date {
-        let day = date.getDay() || 7;
-        if (day !== 1) {
-            date.setHours(-24 * (day - 1));
-        }
-
-        return date;
-    }
-
-    private getYear(givenYear: number) {
+    private getYear(givenYear: number): Year {
         return this.entities.find(year => {
             return year.id === givenYear;
         });
     }
 
-    private splitDate(date: Date) {
+    private splitDate(date: Moment) {
         return {
-            day: date.getDate(),
-            month: date.getMonth() + 1, //month start at 0, for readability purposes we go for actual month numbers
-            year: date.getFullYear()
+            day: date.date(),
+            month: date.month() + 1, //month start at 0, for readability purposes we go for actual month numbers
+            year: date.year()
         };
     }
 }

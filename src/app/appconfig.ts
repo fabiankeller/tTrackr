@@ -1,3 +1,7 @@
+import {JsonMember, JsonObject} from "typedjson-npm";
+
+@JsonObject
 export class AppConfig {
-  lastLoaded: string;
+    @JsonMember
+    lastLoaded: string;
 }

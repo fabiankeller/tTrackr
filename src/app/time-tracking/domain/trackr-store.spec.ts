@@ -3,6 +3,7 @@ import {TrackrStore} from "./trackr-store";
 import {Year} from "./year";
 import {Month} from "./month";
 import {Day} from "./day";
+import * as moment from "moment";
 let mockTrackrStore: TrackrStore;
 fdescribe('AppConfigService', () => {
     beforeEach(() => {
@@ -13,39 +14,24 @@ fdescribe('AppConfigService', () => {
     });
 
     it('should get day from given date', () => {
-        let byDate = mockTrackrStore.getDayByDate(new Date("2017/07/12",));
+        let byDate = mockTrackrStore.getDayByDate(moment("2017-07-12",));
         expect(byDate.id).toBe(12);
         expect(byDate.hours).toBe(8.5);
         expect(byDate.message).toBe("something");
     });
 
-    it('should get monday for given date', () => {
-        let monday = mockTrackrStore.getMonday(new Date("2017/07/12")); // wednesday
-        expect(monday.getDate()).toBe(10);
-
-        monday = mockTrackrStore.getMonday(new Date("2017/07/16")); // sunday
-        expect(monday.getDate()).toBe(10);
-
-        monday = mockTrackrStore.getMonday(new Date("2017/07/18")); // tuesday
-        expect(monday.getDate()).toBe(17);
-
-        monday = mockTrackrStore.getMonday(new Date("2017/07/01")); // saturday start of new month
-        expect(monday.getDate()).toBe(26);
-        expect(monday.getMonth()).toBe(5); //javascript counts months from 0, we check for june obviously
-    });
-
     it('should get all days in week for given date', () => {
-        let weekByDate = mockTrackrStore.getWeekByDate(new Date("2017/07/12"));
+        let weekByDate = mockTrackrStore.getWeekByDate(moment("2017-07-12"));
         expect(weekByDate[0].id).toBe(10); //monday
         expect(weekByDate[6].id).toBe(16); //sunday
 
-        weekByDate = mockTrackrStore.getWeekByDate(new Date("2017/07/20"));
+        weekByDate = mockTrackrStore.getWeekByDate(moment("2017-07-20"));
         expect(weekByDate[0].id).toBe(17); //monday
         expect(weekByDate[6].id).toBe(23); //sunday
     });
 
     it('should get all days in month for given date', () => {
-        let days = mockTrackrStore.getDaysForMonthByDate(new Date("2017/07/12"));
+        let days = mockTrackrStore.getDaysForMonthByDate(moment("2017-07-12"));
         expect(days[0].message).toBe("Im a sunday");
     });
 });
