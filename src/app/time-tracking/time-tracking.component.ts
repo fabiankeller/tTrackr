@@ -28,11 +28,16 @@ export class TimeTrackingComponent {
     }
 
     onDateSelect() {
-        this.storageService.trackrStore.subscribe((trackrStore: TrackrStore) => {
-            const dayByDate = trackrStore.getDayByDate(this.dayForm.value.selectedDate);
-            this.dayForm.patchValue({'time': dayByDate.hours});
-            this.dayForm.patchValue({'message': dayByDate.message});
-        });
+        if (this.dayForm.value.selectedDate) {
+            this.storageService.trackrStore.subscribe((trackrStore: TrackrStore) => {
+                const dayByDate = trackrStore.getDayByDate(this.dayForm.value.selectedDate);
+                this.dayForm.patchValue({'time': dayByDate.hours});
+                this.dayForm.patchValue({'message': dayByDate.message});
+            });
+        } else {
+            this.dayForm.patchValue({'time': ''});
+            this.dayForm.patchValue({'message': ''});
+        }
     }
 
     loadFile() {
