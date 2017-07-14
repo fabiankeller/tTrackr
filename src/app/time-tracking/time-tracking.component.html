@@ -23,10 +23,10 @@
                     <div class="day-card" fxFlex="66">
                         <md-card class="day-card" fxLayout="column">
                             <md-input-container fxFlex.lg>
-                                <input mdInput #message name="time" maxlength="3" minlength="1"
+                                <input mdInput #message name="time" maxlength="4" minlength="1"
                                        placeholder="Worked hours"
                                        formControlName="time">
-                                <md-hint align="end">{{message.value.length}} / 3</md-hint>
+                                <md-hint align="end">{{message.value.length}} / 4</md-hint>
                                 <md-error *ngIf="dayForm.controls.time.hasError('pattern')">
                                     Please enter a valid time
                                 </md-error>
