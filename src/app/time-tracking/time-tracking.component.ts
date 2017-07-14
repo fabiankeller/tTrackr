@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {StorageService} from '../storage.service';
-import {TrackrStore} from "./domain/trackr-store";
+import {TrackrStore} from './domain/trackr-store';
 declare const electron: any;
 
 @Component({
@@ -29,7 +29,7 @@ export class TimeTrackingComponent {
 
     onDateSelect() {
         this.storageService.trackrStore.subscribe((trackrStore: TrackrStore) => {
-            let dayByDate = trackrStore.getDayByDate(this.dayForm.value.selectedDate);
+            const dayByDate = trackrStore.getDayByDate(this.dayForm.value.selectedDate);
             this.dayForm.patchValue({'time': dayByDate.hours});
             this.dayForm.patchValue({'message': dayByDate.message});
         });

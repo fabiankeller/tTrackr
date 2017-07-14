@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {AppConfig} from './appconfig';
 import {AppConfigService} from './app-config.service';
-import {TrackrStore} from "./time-tracking/domain/trackr-store";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {TypedJSON} from "typedjson-npm/src/typed-json";
+import {TrackrStore} from './time-tracking/domain/trackr-store';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {TypedJSON} from 'typedjson-npm/src/typed-json';
 declare const electron: any;
 
 @Injectable()
@@ -12,43 +12,49 @@ export class StorageService {
     path: any = electron.remote.require('path');
     trackrStore: BehaviorSubject<TrackrStore> = new BehaviorSubject(new TrackrStore());
 
-    constructor(private configService: AppConfigService) {
-        this.configService.appConfig.subscribe((appConfig: AppConfig) => {
-
-            this.loadEntriesFile(appConfig);
-        });
-    }
+  constructor(private configService: AppConfigService) {
+    this.configService.appConfig.subscribe((appConfig: AppConfig) => {
+      this.loadEntriesFile(appConfig);
+    });
+  }
 
     loadEntriesFile(appConfig: AppConfig) {
         if (appConfig.lastLoaded !== '') {
-            try {
-                let result = this.fs.readFileSync(this.path.normalize(appConfig.lastLoaded));
-                this.trackrStore.next(TypedJSON.parse(result, TrackrStore));
-            } catch (err) {
-                let options = {
-                    message: "Could not find file at: " + appConfig.lastLoaded,
-                    buttons: ["Browse", "Create new"] };
+            this.fs.readFile(this.path.normalize(appConfig.lastLoaded), 'utf-8',  (err, data) => {
+                if (err) {
+                    const options = {
+                        title: 'File not found',
+                        message: 'Could not find file at: ' + appConfig.lastLoaded,
+                        buttons: ['Browse', 'Create new']
+                    };
 
-                electron.remote.dialog.showMessageBox(options, (index) => {
-                    switch (index) {
-                        case 0: //Create new
-                            this.loadFile();
-                            break;
-                        case 1: //Browse
-                            this.createNewTrackrStore();
-                            break;
-                    }
-                    console.log(index);
-                });
-            }
+                    electron.remote.dialog.showMessageBox(options, (index) => {
+                        switch (index) {
+                            case 0: // Create new
+                                this.loadFile();
+                                break;
+                            case 1: // Browse
+                                this.createNewTrackrStore();
+                                break;
+                        }
+                        console.log(index);
+                    });
+                } else {
+                    this.trackrStore.next(TypedJSON.parse(data, TrackrStore));
+                    this.trackrStore.subscribe((trackrStore: TrackrStore) => {
+                        console.log(trackrStore);
+                    });
+                }
+
+            });
         } else {
-            // create locate storage
-            console.log('entries file not yet existing');
-        }
-    }
+          // create locate storage
+          console.log('entries file not yet existing');
+      }
+  }
 
     private createNewTrackrStore() {
-        let trackrStore = new TrackrStore();
+        const trackrStore = new TrackrStore();
         trackrStore.entities = [];
         this.trackrStore.next(trackrStore);
     }
@@ -65,7 +71,7 @@ export class StorageService {
 
             this.fs.readFile(fileNames[0], 'utf-8', (err, data) => {
                 if (err) {
-                    alert('An error ocurred reading the file :' + err.message + ". Will start with fresh store.");
+                    alert('An error ocurred reading the file :' + err.message + '. Will start with fresh store.');
                     this.createNewTrackrStore();
                     return;
                 }
